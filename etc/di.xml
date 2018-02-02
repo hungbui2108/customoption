@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--<type name="\Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOption">-->
+        <!--<plugin name="hungbd_custom_option_change_grid" type="Hungbd\CustomOptionImage\Plugin\CustomOption" sortOrder="1"/>-->
+    <!--</type>-->
+    <preference for="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions" type="Hungbd\CustomOptionImage\Ui\DataProvider\Product\Form\Modifier\CustomOption" />
+</config>
