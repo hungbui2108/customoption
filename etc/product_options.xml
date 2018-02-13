@@ -7,6 +7,8 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Catalog:etc/product_options.xsd">
     <option name="select">
-        <inputType name="test"  label="Test" />
+        <inputType name="thumb_gallery"  label="Thumb Gallery" />
+        <inputType name="thumb_gallery_popup"  label="Thumb Gallery Popup" />
+        <inputType name="thumb_gallery_mutil"  label="Thumb Gallery Mutil Select" />
    </option>
 </config>

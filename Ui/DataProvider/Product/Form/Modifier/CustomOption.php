@@ -2,12 +2,18 @@
 
 namespace Hungbd\CustomOptionImage\Ui\DataProvider\Product\Form\Modifier;
 
+use Magento\Catalog\Model\Config\Source\Product\Options\Price as ProductOptionsPrice;
+use Magento\Catalog\Model\Locator\LocatorInterface;
+use Magento\Catalog\Model\ProductOptions\ConfigInterface;
+use Magento\Framework\Stdlib\ArrayManager;
+use Magento\Framework\UrlInterface;
 use Magento\Ui\Component\Container;
 use Magento\Ui\Component\DynamicRows;
 use Magento\Ui\Component\Form\Field;
 use Magento\Ui\Component\Form\Element\Input;
 use Magento\Ui\Component\Form\Element\Select;
 use Magento\Ui\Component\Form\Element\DataType\Text;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Created by PhpStorm.
@@ -18,6 +24,7 @@ use Magento\Ui\Component\Form\Element\DataType\Text;
 class CustomOption
     extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions
 {
+
     protected function getSelectTypeGridConfig($sortOrder)
     {
         $options = [
@@ -77,25 +84,28 @@ class CustomOption
                             'arguments' => [
                                 'data' => [
                                     'config' => [
-                                        'label'         => 'Image',
+                                        'label'         => 'image',
                                         'component'     => 'Hungbd_CustomOptionImage/js/form/element/preview-option-image',
                                         'elementTmpl'   => 'Hungbd_CustomOptionImage/form/element/preview-option-image',
                                         'componentType' => Field::NAME,
                                         'formElement'   => Input::NAME,
-//                                        'dataScope'     => 'image_link',
                                         'dataType'      => Text::NAME,
                                         'sortOrder'     => '50',
 //                                        'visible'     => false,
+                                        'imports'       => [
+                                            'base_url' => $this->storeManager->getStore()->getBaseUrl(),
+                                        ],
                                     ],
                                 ],
                             ],
                         ],
-                        'uploader'                    => [
+                        'uploader'  => [
                             'arguments' => [
                                 'data' => [
                                     'config' => [
                                         'component'     => 'Hungbd_CustomOptionImage/js/form/element/file-upload',
                                         'componentType' => Field::NAME,
+                                        'template'   => 'Hungbd_CustomOptionImage/form/element/uploader',
                                         'formElement'   => 'fileUploader',
                                         'dataType'      => Text::NAME,
                                         'sortOrder'     => '60',
@@ -154,5 +164,74 @@ class CustomOption
         $priceFieldConfig['arguments']['data']['config']['template'] = 'Magento_Catalog/form/field';
 
         return $priceFieldConfig;
+    }
+
+    protected function getTypeFieldConfig($sortOrder)
+    {
+        return [
+            'arguments' => [
+                'data' => [
+                    'config' => [
+                        'label' => __('Option Type'),
+                        'componentType' => Field::NAME,
+                        'formElement' => Select::NAME,
+                        'component' => 'Magento_Catalog/js/custom-options-type',
+                        'elementTmpl' => 'ui/grid/filters/elements/ui-select',
+                        'selectType' => 'optgroup',
+                        'dataScope' => static::FIELD_TYPE_NAME,
+                        'dataType' => Text::NAME,
+                        'sortOrder' => $sortOrder,
+                        'options' => $this->getProductOptionTypes(),
+                        'disableLabel' => true,
+                        'multiple' => false,
+                        'selectedPlaceholders' => [
+                            'defaultPlaceholder' => __('-- Please select --'),
+                        ],
+                        'validation' => [
+                            'required-entry' => true
+                        ],
+                        'groupsConfig' => [
+                            'text' => [
+                                'values' => ['field', 'area'],
+                                'indexes' => [
+                                    static::CONTAINER_TYPE_STATIC_NAME,
+                                    static::FIELD_PRICE_NAME,
+                                    static::FIELD_PRICE_TYPE_NAME,
+                                    static::FIELD_SKU_NAME,
+                                    static::FIELD_MAX_CHARACTERS_NAME
+                                ]
+                            ],
+                            'file' => [
+                                'values' => ['file'],
+                                'indexes' => [
+                                    static::CONTAINER_TYPE_STATIC_NAME,
+                                    static::FIELD_PRICE_NAME,
+                                    static::FIELD_PRICE_TYPE_NAME,
+                                    static::FIELD_SKU_NAME,
+                                    static::FIELD_FILE_EXTENSION_NAME,
+                                    static::FIELD_IMAGE_SIZE_X_NAME,
+                                    static::FIELD_IMAGE_SIZE_Y_NAME
+                                ]
+                            ],
+                            'select' => [
+                                'values' => ['drop_down', 'radio', 'checkbox', 'multiple','thumb_gallery','thumb_gallery_popup','thumb_gallery_mutil',],
+                                'indexes' => [
+                                    static::GRID_TYPE_SELECT_NAME
+                                ]
+                            ],
+                            'data' => [
+                                'values' => ['date', 'date_time', 'time'],
+                                'indexes' => [
+                                    static::CONTAINER_TYPE_STATIC_NAME,
+                                    static::FIELD_PRICE_NAME,
+                                    static::FIELD_PRICE_TYPE_NAME,
+                                    static::FIELD_SKU_NAME
+                                ]
+                            ]
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 }

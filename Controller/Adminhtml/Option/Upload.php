@@ -50,14 +50,16 @@ class Upload extends \Magento\Backend\App\Action
         try {
             $result = array();
             $uploader = $this->imageUploader->create(['fileId' => 'image']);
-            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
+            $uploader->setAllowedExtednsions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowCreateFolders(true);
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $path = $this->_fileSystem->getAbsolutePath('hungbd/CustomOption');
             $result = $uploader->save($path, $_FILES['image']['name']);
-            $result['db_file'] = $this->_fileSystem->getRelativePath('hungbd_slider/CustomOption') . $uploader->getUploadedFileName();
-            $result['url'] = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $this->_fileSystem->getRelativePath('hungbd_slider/image') . $uploader->getUploadedFileName();
+            $result['db_file'] = $this->_fileSystem->getRelativePath('hungbd/CustomOption') . $uploader->getUploadedFileName();
+            $result['url'] = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)
+                . $this->_fileSystem->getRelativePath('hungbd_slider/image') .
+                $uploader->getUploadedFileName();
         } catch (\Exception $e) {
             $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];
         }

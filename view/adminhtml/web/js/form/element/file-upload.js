@@ -16,13 +16,13 @@ define([
     'jquery/file-uploader'
 ], function ($, _, utils, uiAlert, validator, Element) {
     'use strict';
-
+    var input_name = '';
     return Element.extend({
         defaults: {
             value: [],
             maxFileSize: false,
             isMultipleFiles: false,
-            placeholderType: 'document', // 'image', 'video'
+            placeholderType: 'docum ent', // 'image', 'video'
             allowedExtensions: false,
             previewTmpl: 'ui/form/element/uploader/preview',
             dropZone: '[data-role=drop-zone]',
@@ -327,6 +327,7 @@ define([
             var file     = data.files[0],
                 allowed  = this.isFileAllowed(file),
                 target   = $(e.target);
+            input_name = data.paramName;
             data.paramName = 'image';
             if (allowed.passed) {
                 target.on('fileuploadsend', function (event, postData) {
@@ -350,7 +351,7 @@ define([
         onFileUploaded: function (e, data) {
             var file    = data.result,
                 error   = file.error;
-
+            $("input[name='"+input_name.replace("uploader","image_link")+"']").val(file.db_file).change();
             error ?
                 this.notifyError(error) :
                 this.addFile(file);

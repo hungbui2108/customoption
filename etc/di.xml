@@ -4,4 +4,5 @@
         <!--<plugin name="hungbd_custom_option_change_grid" type="Hungbd\CustomOptionImage\Plugin\CustomOption" sortOrder="1"/>-->
     <!--</type>-->
     <preference for="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions" type="Hungbd\CustomOptionImage\Ui\DataProvider\Product\Form\Modifier\CustomOption" />
+    <preference for="Magento\Catalog\Block\Product\View\Options\Type\Select" type="Hungbd\CustomOptionImage\Block\Product\View\Options\Type\Select" />
 </config>

@@ -1,14 +1,15 @@
-<input class="admin__control-text" type="text"
+<input class="admin__control-text" type="text" hidden="true"
        data-bind="
-        event: {change: userChanges},
         value: value,
-        hasFocus: focused,
-        valueUpdate: valueUpdate,
+        hasFocus: false,
+        valueUpdate: 'input',
+        event: {change: getFileName},
         attr: {
+            value: value,
             name: inputName,
             placeholder: placeholder,
             'aria-describedby': noticeId,
             id: uid,
             disabled: disabled,
-            maxlength: 255
     }"/>
+<img data-bind= "src: base_url,attr: {src: base_url ,id: 'preview-' + uid}" height="32px" width="32px">

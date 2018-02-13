@@ -5,7 +5,6 @@ define([
     'jquery/colorpicker/js/colorpicker'
 ], function (Element, utils, $) {
     'use strict';
-
     return Element.extend({
         defaults: {
             visible: true,
@@ -24,11 +23,15 @@ define([
 
         initColorPickerCallback: function (element) {
             var self = this;
-
+            $(element).css("backgroundColor", $(element).val());
             $(element).ColorPicker({
                 onSubmit: function(hsb, hex, rgb, el) {
-                    self.value(hex);
+                    self.value('#'+hex);
                     $(el).ColorPickerHide();
+                },
+                onChange: function (hsb, hex, rgb, el) {
+                    self.value('#'+hex);
+                    $(element).css("backgroundColor","#"+hex);
                 },
                 onBeforeShow: function () {
                     $(this).ColorPickerSetColor(this.value);
@@ -36,6 +39,10 @@ define([
             }).bind('keyup', function(){
                 $(this).ColorPickerSetColor(this.value);
             });
+        },
+        getColor: function () {
+            var test = this.inputName;
+            $("input[name='"+test+"']").css("backgroundColor",this.value());
         }
     });
 });
